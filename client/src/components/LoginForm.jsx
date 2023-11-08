@@ -1,6 +1,6 @@
 // see SignupForm.js for comments
 import { useState } from 'react';
-//import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Button, Alert } from 'antd';
 
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
@@ -49,7 +49,7 @@ const LoginForm = () => {
   return (
     <>
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-        <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
+        <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} type='error'>
           Something went wrong with your login credentials!
         </Alert>
         <Form.Group className='mb-3'>
