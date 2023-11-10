@@ -13,7 +13,7 @@ const resolvers = {
     },
   },
   Mutation: {
-    addfarmer: async (parent, { farmername, email, password }) => {
+    addFarmer: async (parent, { farmername, email, password }) => {
       const farmer = await farmer.create({ farmername, email, password });
       const token = signToken(farmer);
       return { token, farmer };
@@ -35,7 +35,7 @@ const resolvers = {
 
       return { token, farmer };
     },
-    addFarmer: async (parent, { farmerText }, context) => {
+    removeFarmer: async (parent, { farmerText }, context) => {
       if (context.farmer) {
         const farmer = await farmer.create({
           farmerText,
