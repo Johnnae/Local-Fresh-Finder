@@ -28,4 +28,6 @@ const farmerSchema = new Schema({
   },
 });
 
-module.exports = farmerSchema;
+const Farmer = model('Farmer', farmerSchema);
+
+module.exports = Farmer;
