@@ -1,64 +1,64 @@
 const { assertType } = require("graphql");
-const { User, Farmer } = require("../models");
+
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
   
     me: async (parent, args, context) => {
-      if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("users");
+      if (context.farmer) {
+        return farmer.findOne({ _id: context.farmer._id }).populate("Farmers");
       }
       throw AuthenticationError;
     },
   },
   Mutation: {
-    addUser: async (parent, { username, email, password }) => {
-      const user = await User.create({ username, email, password });
-      const token = signToken(user);
-      return { token, user };
+    addFarmer: async (parent, { farmername, email, password }) => {
+      const farmer = await farmer.create({ farmername, email, password });
+      const token = signToken(farmer);
+      return { token, farmer };
     },
     login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
+      const farmer = await farmer.findOne({ email });
 
-      if (!user) {
+      if (!farmer) {
         throw AuthenticationError;
       }
 
-      const correctPw = await user.isCorrectPassword(password);
+      const correctPw = await farmer.isCorrectPassword(password);
 
       if (!correctPw) {
         throw AuthenticationError;
       }
 
-      const token = signToken(user);
+      const token = signToken(farmer);
 
-      return { token, user };
+      return { token, farmer };
     },
-    addUser: async (parent, { userText }, context) => {
-      if (context.user) {
-        const user = await User.create({
-          userText,
-          userAuthor: context.user.username,
+    removeFarmer: async (parent, { farmerText }, context) => {
+      if (context.farmer) {
+        const farmer = await farmer.create({
+          farmerText,
+          farmerVeg: context.farmer.farmername,
         });
 
-        await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { users: user._id } }
+        await farmer.findOneAndUpdate(
+          { _id: context.farmer._id },
+          { $addToSet: { farmers: farmer._id } }
         );
 
-        return user;
+        return farmer;
       }
       throw AuthenticationError;
       ("You need to be logged in!");
     },
-    addfarmer: async (parent, { userId, farmerText }, context) => {
-      if (context.user) {
-        return user.findOneAndUpdate(
-          { _id: userId },
+    addmarket: async (parent, { farmerId, marketText }, context) => {
+      if (context.farmer) {
+        return farmer.findOneAndUpdate(
+          { _id: farmerId },
           {
             $addToSet: {
-              farmers: { farmerText, farmerAuthor: context.user.username },
+              markets: { marketText, marketVeg: context.farmer.farmername },
             },
           },
           {
@@ -70,15 +70,15 @@ const resolvers = {
       throw AuthenticationError;
     },
 
-    removeFarmer: async (parent, { userId, farmerId }, context) => {
-      if (context.user) {
-        return user.findOneAndUpdate(
-          { _id: userId },
+    removeMarket: async (parent, { farmerId, marketId }, context) => {
+      if (context.farmer) {
+        return farmer.findOneAndUpdate(
+          { _id: farmerId },
           {
             $pull: {
-              farmers: {
-                _id: farmerId,
-                farmerAuthor: context.user.username,
+              markets: {
+                _id: marketId,
+                marketAuthor: context.farmer.farmername,
               },
             },
           },

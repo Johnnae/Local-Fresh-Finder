@@ -14,5 +14,10 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^5.1.0"
+  },
+  "dependencies": {
+    "git": "^0.1.5",
+    "heroku": "^8.7.1",
+    "login": "^0.8.0"
   }
 }

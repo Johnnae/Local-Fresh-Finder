@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import {
-  Container,
   Card,
+  Divider,
   Button,
   Row,
-  Col
+  Col,
+  Space,
 } from 'antd';
 
 import Auth from '../utils/auth';
@@ -49,36 +50,38 @@ const SavedBooks = () => {
   return (
     <>
       <div fluid className="text-light bg-dark p-5">
-        <Container>
-          <h1>Viewing saved books!</h1>
-        </Container>
+        <Divider>
+          <h1>Viewing farmers markets!</h1>
+        </Divider>
       </div>
-      <Container>
+      <Divider>
         <h2 className='pt-5'>
           {userData.savedBooks.length
             ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
-            : 'You have no saved books!'}
+            : 'You have no saved farmers markets!'}
         </h2>
         <Row>
-          {userData.savedBooks.map((book) => {
+          {userData.savedBooks.map((markets) => {
             return (
-              <Col md="4">
-                <Card key={book.bookId} border='dark'>
-                  {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
-                  <Card.Body>
-                    <Card.Title>{book.title}</Card.Title>
-                    <p className='small'>Authors: {book.authors}</p>
-                    <Card.Text>{book.description}</Card.Text>
-                    <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
-                      Delete this Book!
-                    </Button>
-                  </Card.Body>
-                </Card>
+              <Col>
+                <Space direction="vertical" size={16}>
+                  <Card
+                    title="{Market}"
+                    style={{
+                      width: 300,
+                    }}
+                  >
+                    <p>Date:</p>
+                    <p>Time: </p>
+                    <p>Location: </p>
+                    <p>Items committed to: </p>
+                  </Card>
+                </Space>
               </Col>
             );
           })}
         </Row>
-      </Container>
+      </Divider>
     </>
   );
 };

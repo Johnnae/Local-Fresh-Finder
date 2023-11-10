@@ -1,33 +1,58 @@
-const { Schema } = require('mongoose');
+const { Schema, model } = require("mongoose");
+const bcrypt = require("bcrypt");
 
-// This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `saveds` array in User.js
-const farmerSchema = new Schema({
-  authors: [
-    {
+// import schema from market.js
+const marketSchema = require("./market");
+
+const farmerSchema = new Schema(
+  {
+    farmername: {
       type: String,
+      required: true,
+      unique: true,
     },
-  ],
-  description: {
-    type: String,
-    required: true,
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [/.+@.+\..+/, "Must use a valid email address"],
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    // set savedmarkets to be an array of data that adheres to the marketSchema
+    savedMarkets: [marketSchema],
   },
-  // saved  id from Googles api
-  farmerId: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-  },
-  link: {
-    type: String,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
+  // set this to use virtual below
+  {
+    toJSON: {
+      virtuals: true,
+    },
+  }
+);
+
+// hash farmer password
+farmerSchema.pre("save", async function (next) {
+  if (this.isNew || this.isModified("password")) {
+    const saltRounds = 10;
+    this.password = await bcrypt.hash(this.password, saltRounds);
+  }
+
+  next();
 });
 
-const Farmer = model('Farmer', farmerSchema);
 
-module.exports = Farmer;
+// custom method to compare and validate password for logging in
+farmerSchema.methods.isCorrectPassword = async function (password) {
+  return bcrypt.compare(password, this.password);
+};
+
+// when we query a farmer, we'll also get another field called `marketCount` with the number of saved markets we have
+farmerSchema.virtual("marketCount").get(function () {
+  return this.savedmarkets.length;
+});
+
+const farmer = model("farmer", farmerSchema);
+
+module.exports = farmer;

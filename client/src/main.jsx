@@ -11,12 +11,12 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <h1 className='display-2'>Wrong page!</h1>,
     children: [
+      // {
+      //   index: true,
+      //   element: <SearchMarkets />
+      // },
       {
-        index: true,
-        element: <SearchMarkets />
-      },
-      {
-        path: '/profile/:id',
+        path: '/profile',
         element: <Profile />
       },
     ]
