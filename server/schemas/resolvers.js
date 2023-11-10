@@ -1,5 +1,5 @@
 const { assertType } = require("graphql");
-const { User, farmer } = require("../models");
+const { User, Farmer } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
