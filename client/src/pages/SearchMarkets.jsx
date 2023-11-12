@@ -13,7 +13,7 @@ import Auth from '../utils/auth';
 import { searchMarkets } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 import { useMutation } from '@apollo/client';
-import { SAVE_BOOK } from '../utils/mutations';
+import {  SAVE_market } from '../utils/mutations';
 
 const SavedMarkets = () => {
   // create state for holding returned google api data
@@ -24,7 +24,7 @@ const SavedMarkets = () => {
   // create state to hold saved bookId values
   const [savedMarketIds, setSavedMarketIds] = useState(getSavedMarketIds());
 
-  const [saveMarket, { error }] = useMutation(SAVE_BOOK);
+  const [saveMarket, { error }] = useMutation(SAVE_market);
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
