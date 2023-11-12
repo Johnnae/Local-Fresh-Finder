@@ -38,7 +38,7 @@ export const ADD_farmer = gql`
     }
   }
 `; 
-export const LOGIN_farmer = gql`
+export const LOGIN_USER = gql`
   mutation removeFarmer($email: String!, $password: String!) {
     loginFarmer(email: $email, password: $password) {
       token
