@@ -4,7 +4,7 @@ import { Button, Checkbox, Form, Input } from 'antd';
 
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
-import { LOGIN_farmer } from '../utils/mutations';
+import { LOGIN_USER } from '../utils/mutations';
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
