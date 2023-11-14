@@ -12,7 +12,7 @@ import {
   InputNumber,
 } from 'antd';
 
-const { Header, Content } = Layout;
+const { Header, Content, Sider } = Layout;
 import Footer from '../components/Footer';
 
 import { useMutation } from '@apollo/client';
@@ -20,15 +20,15 @@ import { saveMarketIds, getSavedMarketIds } from '../utils/localStorage';
 
 import Auth from '../utils/auth';
 import { searchMarkets } from '../utils/API';
-import { SAVE_BOOK } from "../../../../Book-Search-Engine/client/src/utils/mutations";
 import { SAVE_market } from "../utils/mutations";
 
 
 const SavedMarkets = () => {
+
   // create state for holding returned market data
   const [searchedMarkets, setSearchedMarkets] = useState([]);
   // create state for holding our search field data
-  const [searchInput, setSearchInput] = useState('');
+  const [zipCode, setSearchInput] = useState('');
 
   // create method to search for markets and set state on form submit
   const [savedMarketIds, setSavedMarketIds] = useState(getSavedMarketIds());
@@ -40,24 +40,29 @@ const SavedMarkets = () => {
     return () => saveMarketIds(savedMarketIds);
   });
 
-  const [value, setValue] = useState('99');
+  const [radius, setValue] = useState('99');
 
   // create method to handle saving a market to our database
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
+  const handleFormSubmit = async (values) => {
+    // event.preventDefault();
+    console.log(values.Radius, values.Zipcode);
 
-    if (!searchInput) {
+    const SearchZipCode = values.ZipCode
+    const SearchRadius = values.Radius
+    if (!SearchZipCode && !SearchRadius) {
       return false;
     }
 
     try {
-      const response = await searchMarkets(searchInput);
+      const response = await searchMarkets(SearchZipCode, SearchRadius);
+
+      console.log(response);
 
       if (!response.ok) {
         throw new Error('something went wrong!');
       }
 
-      const { markets } = await response.json();
+      const { markets } = await response;
 
       const marketData = markets.map((data) => ({
         farmersMarket: data.listing_name,
@@ -112,29 +117,71 @@ const SavedMarkets = () => {
   return (
     <>
       <div>
-        <Header>
-          <h1>Search for Markets in your area!</h1>
-          <Form
-            name="searchBar"
-            initialValues={{ remember: true }}
-            width= "md" >
-          <Form.Item label="Zipcode" name="Zipcode" width="50px" rules={[{ required: true, message: "Please input your zipcode!" }]}>
-              <InputNumber placeholder="Enter your 5 digit Zipcode" min={1} max={99999} width="md" />
-            </Form.Item>
-          <Form.Item label="Radius" name="Radius" rules={[{ required: true }]} width="md">
-              <InputNumber placeholder="Enter your radius" min={1} max={100} value={value} onChange={setValue} />
-            </Form.Item>
-          </Form>
-        </Header>
-        <Content>
-          <div>
-            <div>
-              <p> Sample Text 1</p>
-              <p> Sample text 2</p>
-              <p> Sample Text 3</p>
-            </div>
-          </div>
-        </Content>
+        <Layout>
+          <Header style={{
+            display: "flex",
+            alignItems: "center",
+            color: "white",
+            fontSize: "30px",
+            }}>
+            <h1>Search for markets in your area!</h1>
+          </Header>
+        </Layout>
+        <Layout hasSider>
+          <Sider>
+            <Form
+              name="searchBar"
+              initialValues={{ remember: true }}
+              width="md" 
+              onFinish={handleFormSubmit}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                background: "white",
+                padding: "20px",
+              }}>
+              <Form.Item 
+                label="Zipcode" 
+                name="Zipcode" 
+                width="50px" 
+                rules={[{ required: true, message: "Please input your zipcode!" }]}
+                >
+                <InputNumber value={zipCode} placeholder="Enter your 5 digit Zipcode" min={1} max={99999} width="md"  />
+              </Form.Item>
+              <Form.Item 
+                label="Radius" 
+                name="Radius" 
+                rules={[{ required: true }]} width="md"
+                >
+                <InputNumber placeholder="Enter your radius" min={1} max={100} value={radius}/>
+              </Form.Item>
+              <Button type="primary" htmlType="submit">
+                Search now!
+              </Button>
+            </Form>
+            <Divider>
+              <Space
+                direction="vertical"
+                size="middle"
+                style={{
+                  display: 'flex',
+                }}
+              >
+                {searchedMarkets.map((market) => {
+                  return(
+                    <Card title={market.farmersMarket} bordered={false} size="small" key={market.marketId}>
+                      <p>{market.streetAddress}</p>
+                      <p>{market.city}, {market.state} {market.zipCode}</p>
+                      <p>{market.marketPhone ? market.marketPhone : "No phone number listed"}</p>
+                      <p>{market.contact_email ? market.contact_email : "No email available"}</p>
+                      <p>{market.website === null ? "No website available" : market.website}</p>
+                    </Card>
+                  )})}
+              </Space>
+            </Divider>
+          </Sider>
+          <Content>Map</Content>
+        </Layout>
       </div> 
         <Footer/>
     </>
