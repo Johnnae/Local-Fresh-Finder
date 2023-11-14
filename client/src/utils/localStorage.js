@@ -1,12 +1,12 @@
-export const getSavedBookIds = () => {
-  const savedBookIds = localStorage.getItem('saved_books')
+export const getSavedMarketIds = () => {
+  const savedMarketIds = localStorage.getItem('saved_books')
     ? JSON.parse(localStorage.getItem('saved_books'))
     : [];
 
-  return savedBookIds;
+  return savedMarketIds;
 };
 
-export const saveBookIds = (bookIdArr) => {
+export const saveMarketIds = (bookIdArr) => {
   if (bookIdArr.length) {
     localStorage.setItem('saved_books', JSON.stringify(bookIdArr));
   } else {

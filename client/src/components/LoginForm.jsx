@@ -4,7 +4,7 @@ import { Button, Checkbox, Form, Input } from 'antd';
 
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
+import { LOGIN_farmer } from '../utils/mutations';
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
@@ -103,7 +103,6 @@ const LoginForm = () => {
             Forgot password
           </a>
         </Form.Item>
-
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit" className="login-form-button" >
             Log in
