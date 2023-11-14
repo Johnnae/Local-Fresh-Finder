@@ -3,7 +3,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import App from './App.jsx'
 import Profile from './pages/Profile'
-import SearchMarkets from './pages/SearchMarkets'
+// import SearchMarkets from './pages/SearchMarkets'
+import Homepage from './pages/Homepage'
+
 
 const router = createBrowserRouter([
   {
@@ -11,10 +13,10 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <h1 className='display-2'>Wrong page!</h1>,
     children: [
-      // {
-      //   index: true,
-      //   element: <SearchMarkets />
-      // },
+      {
+        index: true,
+        element: <Homepage />
+      },
       {
         path: '/profile',
         element: <Profile />
