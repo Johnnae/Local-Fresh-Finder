@@ -6,16 +6,25 @@ const marketSchema = require("./market");
 
 const farmerSchema = new Schema(
   {
-    farmername: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     email: {
       type: String,
       required: true,
       unique: true,
       match: [/.+@.+\..+/, "Must use a valid email address"],
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    website: {
+      type: String,
+    },
+    bio: {
+      type: String,
+    },
+    companyName: {
+      type: String,
+      required: true,
     },
     password: {
       type: String,
@@ -48,11 +57,11 @@ farmerSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-// when we query a farmer, we'll also get another field called `marketCount` with the number of saved markets we have
-farmerSchema.virtual("marketCount").get(function () {
-  return this.savedmarkets.length;
-});
+// // when we query a farmer, we'll also get another field called `marketCount` with the number of saved markets we have
+// farmerSchema.virtual("marketCount").get(function () {
+//   return this.savedMarkets.length;
+// });
 
-const farmer = model("farmer", farmerSchema);
+const Farmer = model('Farmer', farmerSchema);
 
-module.exports = farmer;
+module.exports = Farmer;

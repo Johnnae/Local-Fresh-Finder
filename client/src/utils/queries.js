@@ -10,11 +10,21 @@ export const GET_ME = gql`
       savedMarkets {
         Id
         farmer
-        description
+        bio
         title
         image
         link
       }
+    }
+  }
+`;
+
+export const QUERY_MARKETS = gql`
+  query getMarkets($companyName: String!) {
+    markets(marketId: $marketId) {
+      _id
+      listingName
+      listingAddress
     }
   }
 `;

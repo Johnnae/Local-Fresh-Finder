@@ -3,7 +3,7 @@ const {
   createUser,
   getSingleUser,
   saveFarmer,
-  deleteFarmer,
+  deleteMarket,
   login,
 } = require('../../controllers/user-controller');
 
@@ -17,6 +17,6 @@ router.route('/login').post(login);
 
 router.route('/me').get(authMiddleware, getSingleUser);
 
-router.route('/farmers/:farmerId').delete(authMiddleware, deleteFarmer);
+router.route('/farmers/:farmerId').delete(authMiddleware, deleteMarket);
 
 module.exports = router;

@@ -9,17 +9,17 @@ import {
 } from 'antd';
 
 import Auth from '../utils/auth';
-import { removeBookId } from '../utils/localStorage';
+import { removeMarketId } from '../utils/localStorage';
 
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
-import { REMOVE_market } from '../utils/mutations';
+import { REMOVE_MARKET } from '../utils/mutations';
 
 
 const SavedBooks = () => {
   // create state to hold saved book data
   const { loading, data } = useQuery(GET_ME);
-  const [removeBook, { error }] = useMutation(REMOVE_market);
+  const [removeBook, { error }] = useMutation(REMOVE_MARKET);
 
   const userData = data?.me || {};
 
