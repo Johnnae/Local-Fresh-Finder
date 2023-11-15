@@ -5,6 +5,12 @@ type Query  {
     
     me: User
   }
+
+type Query{
+    markets: [Market]!
+    market(_id: ID!): Market
+
+}
 type User  { 
     _id: ID
     username: String
@@ -29,9 +35,10 @@ type farmer {
     image: String
     link: String
   } 
-  type Auth { 
-    token: ID!
-    user: User
-  } 
+
+type Auth { 
+  token: ID!
+  user: User
+} 
 `;
 module.exports = typeDefs;
