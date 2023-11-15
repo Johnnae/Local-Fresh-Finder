@@ -1,31 +1,23 @@
 const { Schema } = require('mongoose');
 
-// This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `saveds` array in User.js
+// this is a subdocument schema for the 'markets' collection
 const marketSchema = new Schema({
-  veg: [
-    {
-      type: String,
-    },
-  ],
-  description: {
-    type: String,
-    required: true,
-  },
-  // saved  id from Googles api
   marketId: {
     type: String,
     required: true,
   },
-  image: {
+  updateTime: {
     type: String,
   },
-  link: {
+  listingName: {
     type: String,
+    required: true,
   },
-  title: {
+  listingAddress: {
     type: String,
     required: true,
   },
 });
+
 
 module.exports = marketSchema;

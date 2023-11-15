@@ -1,3 +1,3 @@
-const Farmer = require("./farmer");
+const Farmer = require('./Farmer');
 
 module.exports = { Farmer };

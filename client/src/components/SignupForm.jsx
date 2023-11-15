@@ -6,15 +6,29 @@ const { Option } = Select;
 import Auth from '../utils/auth';
 
 import { useMutation } from '@apollo/client';
-import { ADD_farmer } from '../utils/mutations';
+import { ADD_FARMER } from '../utils/mutations';
 
 
 const SignupForm = () => {
 
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
+  const [addFarmer, { loading }] = useMutation(ADD_FARMER);
+
+  const [data, setData] = useState('');
+  const [error, setError] = useState('');
+
+  const onFinish = async (values) => {
     console.log('Received values of form: ', values);
+
+    try {
+      const { data } = await addFarmer({
+        variables: { ...values },
+      });
+      setData(data);
+    } catch {
+      setError(error);
+    }
   };
 
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
@@ -180,45 +194,6 @@ const SignupForm = () => {
           ]}
         >
           <Input.TextArea showCount maxLength={100} />
-        </Form.Item>
-
-
-        <Form.Item label="Captcha" extra="We must make sure that your are a human.">
-          <Row gutter={8}>
-            <Col span={12}>
-              <Form.Item
-                name="captcha"
-                noStyle
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input the captcha you got!',
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Button>Get captcha</Button>
-            </Col>
-          </Row>
-        </Form.Item>
-
-        <Form.Item
-          name="agreement"
-          valuePropName="checked"
-          rules={[
-            {
-              validator: (_, value) =>
-                value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-            },
-          ]}
-          {...tailFormItemLayout}
-        >
-          <Checkbox>
-            I have read the <a href="">agreement</a>
-          </Checkbox>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">

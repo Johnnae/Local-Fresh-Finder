@@ -8,12 +8,18 @@ import { LOGIN_USER } from '../utils/mutations';
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+
   const [validated] = useState(false);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
+  const [showAlert, setShowAlert] = useState(false);
+
+  const [form] = Form.useForm();
+
+  // const showModal = () => {
+  //   setIsModalVisible(true);
+  // };
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -93,15 +99,6 @@ const LoginForm = () => {
           name="password"
           rules={[{ required: true, message: 'Please input your password!' }]}>
           <Input.Password />
-        </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit" className="login-form-button" >

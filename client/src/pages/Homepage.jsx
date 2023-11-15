@@ -19,7 +19,8 @@ import { useMutation } from '@apollo/client';
 import { saveMarketIds, getSavedMarketIds } from '../utils/localStorage';
 
 import Auth from '../utils/auth';
-import { SAVE_market } from "../utils/mutations";
+import { SAVE_MARKET } from "../utils/mutations";
+import { QUERY_MARKETS } from "../utils/queries";
 
 
 const SavedMarkets = () => {
@@ -32,7 +33,7 @@ const SavedMarkets = () => {
   // create method to search for markets and set state on form submit
   const [savedMarketIds, setSavedMarketIds] = useState(getSavedMarketIds());
 
-  const [savedMarket, { error }] = useMutation(SAVE_market);
+  const [savedMarket, { error }] = useMutation(SAVE_MARKET);
 
   // set up useEffect hook to save `savedMarketIds` list to localStorage on component unmount
   useEffect(() => {
@@ -53,6 +54,8 @@ const SavedMarkets = () => {
     }
 
     try {
+      const { loading, data } = useQuery(QUERY_MARKETS);
+      
       const response = await searchMarkets(SearchZipCode, SearchRadius);
 
       console.log(response);
@@ -64,8 +67,9 @@ const SavedMarkets = () => {
       const { markets } = await response.json();
 
       const marketData = markets.map((data) => ({
-        listing_name: data.listing_name,
-        location_address: data.location_address,
+        marketId: data.id,
+        farmersMarket: data.listingName,
+        address: data.listingAddress,
       }));
 
       setSearchedMarkets(marketData);

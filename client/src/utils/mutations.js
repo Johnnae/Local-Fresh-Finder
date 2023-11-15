@@ -1,52 +1,67 @@
 import { gql } from '@apollo/client';
 
-
-export const SAVE_market = gql`
-  mutation SaveMarket($marketData: marketInput!) {
-    saveMarket(marketData: $marketData) {
-      
-      marketCount
-      savedMarkets {
-        marketId
-        authors
-        description
-        title
-        image
-        link
-      }
-    }
-  }
-`;
-export const REMOVE_market = gql`
-  mutation RemoveMarket($marketId: ID!) {
-    removeMarket(marketId: $marketId) {
-      _id
-      authors
-      savedMarkets {
-        marketId
-        title
-      }
-    }
-  }
-`;
-export const ADD_farmer = gql`
-  mutation AddFarmer($farmername: String!, $email: String!, $password: String!) {
-    addFarmer(farmername: $farmername, email: $email, password: $password) {
-      _id
-      farmername
-      email
-    }
-  }
-`; 
 export const LOGIN_USER = gql`
-  mutation removeFarmer($email: String!, $password: String!) {
-    loginFarmer(email: $email, password: $password) {
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
       token
       farmer {
         _id
-        farmerame
         email
+        companyName
       }
     }
   }
 `;
+export const ADD_FARMER = gql`
+  mutation addFarmer($email: String!, $password: String!, $phone: String!, $website: String, $bio: String, $farmerName: String!) {
+    addFarmer(email: $farmerName, password: $password, phone: $phone, website: $website, Bio: $Bio, farmerName: $farmerName) {
+      token
+      farmer{
+        _id
+        email
+        phone
+        website
+        bio
+        companyName
+      }
+    }
+  }
+`;
+
+export const SAVE_MARKET = gql`
+  mutation saveMarket($marketData: marketInput!) {
+    saveMarket(marketData: $marketData) {
+      _id
+      email
+      phone
+      website
+      bio
+      companyName
+      savedMarkets {
+        marketId
+        updateTime
+        listingName
+        listingAddress
+      }
+    }
+  }
+`;
+export const REMOVE_MARKET = gql`
+  mutation removeMarket($marketId: ID!) {
+    removeMarket(marketId: $marketId) {
+      _id
+      email
+      phone
+      website
+      bio
+      companyName
+      savedMarkets {
+        marketId
+        updateTime
+        listingName
+        listingAddress
+      }
+    }
+  }
+`;
+
