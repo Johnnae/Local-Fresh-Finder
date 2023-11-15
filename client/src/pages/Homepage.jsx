@@ -19,7 +19,6 @@ import { useMutation } from '@apollo/client';
 import { saveMarketIds, getSavedMarketIds } from '../utils/localStorage';
 
 import Auth from '../utils/auth';
-import { searchMarkets } from '../utils/API';
 import { SAVE_market } from "../utils/mutations";
 
 
@@ -65,18 +64,8 @@ const SavedMarkets = () => {
       const { markets } = await response.json();
 
       const marketData = markets.map((data) => ({
-        farmersMarket: data.listing_name,
-        lastUpdated: data.updatetime,
-        image: data.listing_image,
-        contactEMail: data.contact_email,
-        website: data.media_website,
-        marketPhone: data.contact_phone,
-        streetAddress: data.location_street,
-        city: data.location_city,
-        state: data.location_state,
-        zipCode: data.location_zipcode,
-        latitude: data.location_x,
-        longitude: data.location_y,
+        listing_name: data.listing_name,
+        location_address: data.location_address,
       }));
 
       setSearchedMarkets(marketData);
