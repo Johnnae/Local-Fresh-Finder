@@ -47,7 +47,7 @@ const SavedMarkets = () => {
     // event.preventDefault();
     console.log(values.Radius, values.Zipcode);
 
-    const SearchZipCode = values.ZipCode
+    const SearchZipCode = values.Zipcode
     const SearchRadius = values.Radius
     if (!SearchZipCode && !SearchRadius) {
       return false;
@@ -62,7 +62,7 @@ const SavedMarkets = () => {
         throw new Error('something went wrong!');
       }
 
-      const { markets } = await response;
+      const { markets } = await response.json();
 
       const marketData = markets.map((data) => ({
         farmersMarket: data.listing_name,
