@@ -16,8 +16,7 @@ const typeDefs = `
       companyName: String!
       savedMarkets: [Market] 
   } 
-
-  >>>>>>> Stashed changes
+  
   type Market {
       marketId: String!
       updateTime: String
