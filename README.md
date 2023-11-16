@@ -3,7 +3,7 @@ Bringing together local farmers and consumers
 
 ## User Story 
 
-As a consumer I would like to know what farmers markets are in my area. 
+As a consumer I would like access to fresh foods and to know what farmers markets are in my area. 
 
 ## Technology Used 
 ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white)
