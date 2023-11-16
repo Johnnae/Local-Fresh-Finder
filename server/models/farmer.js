@@ -31,7 +31,12 @@ const farmerSchema = new Schema(
       required: true,
     },
     // set savedmarkets to be an array of data that adheres to the marketSchema
-    savedMarkets: [marketSchema],
+    savedMarkets: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Market'
+      },
+    ]
   },
   // set this to use virtual below
   {
