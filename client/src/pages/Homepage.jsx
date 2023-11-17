@@ -26,37 +26,37 @@ import { getSavedMarketIds, saveMarketIds } from "../utils/localStorage";
 
 const queryMarkets = () => {
 
-  // const [userImputData, setUserInputData] = useState({ marketID: '' });
+  const [userImputData, setUserInputData] = useState({ listing_name: '' });
 
-  // const [validated] = useState(false);
+  const [validated] = useState(false);
 
-  // const [showAlert, setShowAlert] = useState(false);
-  // // create state for holding returned form data
-  // const [form] = Form.useForm();
+  const [showAlert, setShowAlert] = useState(false);
+  // create state for holding returned form data
+  const [form] = Form.useForm();
 
-  // const [ { loading, data, error }] = useQuery(QUERY_MARKETS);
+  const [ queryMarkets ,{ error }] = useLazyQuery(QUERY_MARKETS);
 
-  // // create state for holding returned query data 
-  // const [searchQuery, setSearchQuery] = useState([]);
+  // create state for holding returned query data 
+  const [searchQuery, setSearchQuery] = useState([]);
 
-  // // create state for holding our marketId values
-  // const [savedMarketIds, setSavedMarketIds] = useState(getSavedMarketIds());
+  // create state for holding our marketId values
+  const [savedMarketIds, setSavedMarketIds] = useState(getSavedMarketIds());
 
-  // useEffect(() => {
-  //   return () => saveMarketIds(savedMarketIds);
-  // });
+  useEffect(() => {
+    return () => saveMarketIds(savedMarketIds);
+  });
 
-  // create method to search for markets and set state on form submit
+  //create method to search for markets and set state on form submit
 
-  const handleFormSubmit = async (values, event) => {
-    event.preventDefault();
+  const handleFormSubmit = async (values) => {
+    // event.preventDefault();
     console.log(values);
     if (!values) {
       return false;
     }
     try {
-      const { data } = await marketList({
-        variables: { ...values }
+      const { data } = await queryMarkets({
+        variables: { listing_name: values.Markets },
       });
 
       const markets = data?.markets || [];
@@ -69,20 +69,6 @@ const queryMarkets = () => {
   };
   
 
-  // // show markets based on farmer name
-  // const showMarkets = async (values) => {
-  //   console.log(values);
-
-  //   try {
-  //     const { data } = await getMarket({
-  //       variables: { ...values },
-  //     });
-  //     setData(data);
-  //   } catch {
-  //     setError(error);
-  //   }
-  // }
-  
   return (
     <>
       <div>
@@ -103,7 +89,7 @@ const queryMarkets = () => {
             <Form
               name="searchBar"
               initialValues={{ remember: true }}
-              width="md" 
+              width="large" 
               onFinish={handleFormSubmit}
               style={{
                 display: 'flex',

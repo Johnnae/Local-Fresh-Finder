@@ -6,7 +6,7 @@ const resolvers = {
   
     me: async (parent, args, context) => {
       if (context.farmer) {
-        return farmer.findOne({ _id: context.farmer._id }).populate("Farmers");
+        return Farmer.findOne({ _id: context.farmer._id }).populate("Farmers");
       }
       throw AuthenticationError;
     },
@@ -16,6 +16,10 @@ const resolvers = {
       console.log(markets);
       return markets;
   },
+    market: async (parent, args, context ) => {
+      return Market.findOne({listingName: context.listing_name});
+      console.log(context)
+    },
   },
   Mutation: {
     // Takes in email and password as parameters and returns an Auth type.

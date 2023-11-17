@@ -48,7 +48,7 @@ const AppNavbar = () => {
         {Auth.loggedIn() ? (
           <>
             <Menu.Item key="saved" icon={<UserOutlined />}>
-              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/profile">Dashboard</Link>
             </Menu.Item>
             <Menu.Item key="logout" icon={<UserOutlined />} onClick={Auth.logout}>
               Logout

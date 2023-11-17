@@ -11,7 +11,7 @@ export const GET_ME = gql`
       companyName
       savedMarkets {
         _id
-        listingName
+        listing_name
         listingAddress
       }
     }
@@ -19,11 +19,11 @@ export const GET_ME = gql`
 `;
 
 export const QUERY_MARKETS = gql`
-  query queryMarkets($listingName: String!) {
-    markets(listingName: $listing_name) {
+  query queryMarkets($listing_name: String!) {
+    markets(listing_name: $listing_name) {
       _id
-      listingName
-      listingAddress
+      listing_name
+      location_address
     }
   }
 `;

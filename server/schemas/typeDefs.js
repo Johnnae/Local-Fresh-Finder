@@ -5,7 +5,7 @@ const typeDefs = `
       
       me: Farmer
       markets: [Market]!
-      market(marketId: ID!): Market
+      market(listing_name: String!): Market
     }
 
   type Farmer  { 
