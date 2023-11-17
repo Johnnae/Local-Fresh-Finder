@@ -13,8 +13,8 @@ export const LOGIN_USER = gql`
   }
 `;
 export const ADD_FARMER = gql`
-  mutation addFarmer($email: String!, $password: String!, $phone: String!, $website: String, $bio: String, $farmerName: String!) {
-    addFarmer(email: $farmerName, password: $password, phone: $phone, website: $website, Bio: $Bio, farmerName: $farmerName) {
+  mutation addFarmer($email: String!, $password: String!, $phone: String!, $website: String, $bio: String, $companyName: String!) {
+    addFarmer(email: $email, password: $password, phone: $phone, website: $website, bio: $bio, companyName: $companyName) {
       token
       farmer{
         _id

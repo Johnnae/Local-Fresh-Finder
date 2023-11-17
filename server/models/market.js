@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-// this is a subdocument schema for the 'markets' collection
+// this is a schema for the 'markets' collection
 const marketSchema = new Schema({
   listing_id: {
     type: String,

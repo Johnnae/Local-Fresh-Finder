@@ -44,7 +44,7 @@ module.exports = {
   },
   // save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
   // user comes from `req.user` created in the auth middleware function
-  async saveMarket({ user, body }, res) {
+  async saveFarmer({ user, body }, res) {
     console.log(user);
     try {
       const updatedUser = await Farmer.findOneAndUpdate(
@@ -70,4 +70,16 @@ module.exports = {
     }
     return res.json(updatedUser);
   },
+  async getFarmers({user, params}, res) {
+    const foundUser = await Farmer.find(
+      { $or: [{ companyName: body.companyName }, { email: body.email }] 
+      });
+
+    if (!foundUser) {
+      return res.status(400).json({ message: 'Cannot find a user with this id!' });
+    }
+
+    res.json(foundUser);
+    },
+
 };

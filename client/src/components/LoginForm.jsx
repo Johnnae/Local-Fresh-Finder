@@ -25,20 +25,21 @@ const LoginForm = () => {
     setIsModalVisible(false);
   };
 
-  const onFinish = (values) => {
-    console.log('Received values:', values);
-    setIsModalVisible(false);
-  };
+
 
   const [loginUser, { error }] = useMutation(LOGIN_USER);
 
+  const onFinish = async (values) => {
+    console.log('Received values:', values);
+    await handleFormSubmit(values,);
+    setIsModalVisible(false);
+  };
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
 
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
+  const handleFormSubmit = async (values) => {
 
     try {
         const { data } = await loginUser({
@@ -48,6 +49,7 @@ const LoginForm = () => {
         Auth.login(data.login.token);
         
       } catch (err) {
+        console.log(err);
         console.error(err);
         setShowAlert(true);
       }
