@@ -40,8 +40,8 @@ export const SAVE_MARKET = gql`
       savedMarkets {
         marketId
         updateTime
-        listingName
-        listingAddress
+        listing_name
+        listing_address
       }
     }
   }
@@ -58,7 +58,7 @@ export const REMOVE_MARKET = gql`
       savedMarkets {
         marketId
         updateTime
-        listingName
+        listing_name
         listingAddress
       }
     }
