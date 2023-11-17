@@ -9,7 +9,6 @@
     "install": "cd server && npm i && cd ../client && npm i",
     "build": "cd client && npm run build",
     "seed": "cd server && npm run seed"
-    
   },
   "keywords": [],
   "author": "",
@@ -18,6 +17,7 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
+    "@apollo/server": "^4.9.5",
     "git": "^0.1.5",
     "heroku": "^8.7.1",
     "login": "^0.8.0"
