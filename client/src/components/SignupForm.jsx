@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AutoComplete, Button, Checkbox, Col, Form, Input, Row, Select } from 'antd';
+import { AutoComplete, Button, Form, Input, Select, notification } from 'antd';
 const { Option } = Select;
 
 //import { createUser } from '../utils/API';
@@ -13,9 +13,8 @@ const SignupForm = () => {
 
   const [form] = Form.useForm();
 
-  const [addFarmer, { loading }] = useMutation(ADD_FARMER);
+  const [addFarmer, { data }] = useMutation(ADD_FARMER);
 
-  const [data, setData] = useState('');
   const [error, setError] = useState('');
 
   const onFinish = async (values) => {
@@ -23,10 +22,25 @@ const SignupForm = () => {
 
     try {
       const { data } = await addFarmer({
-        variables: { ...values },
+        variables: { 
+          bio: values.bio,
+          companyName: values.companyName,
+          email: values.email,
+          password: values.password,
+          phone: values.phone,
+          website: values.website,
+         },
       });
+      // Assuming your server returns some data after a successful user creation
+      if (data.addFarmer) {
+        notification.success({
+          message: 'User Created',
+          description: 'The user has been successfully created.',
+        });
+      }
       setData(data);
     } catch {
+      console.log(error);
       setError(error);
     }
   };
@@ -137,7 +151,7 @@ const SignupForm = () => {
         </Form.Item>
 
         <Form.Item
-          name="farmName"
+          name="companyName"
           label="Company name"
           tooltip="What is your farm or company name? Customers will find you buy this name"
           rules={[

@@ -66,6 +66,7 @@ const SavedBooks = () => {
               <Col>
                 <Space direction="vertical" size={16}>
                   <Card
+                    key={markets.marketId}
                     title="{Market}"
                     style={{
                       width: 300,

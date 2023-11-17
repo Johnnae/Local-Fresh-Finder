@@ -6,25 +6,25 @@ export const GET_ME = gql`
       _id
       username
       email
-      marketCount
+      website
+      bio
+      companyName
       savedMarkets {
-        Id
-        farmer
-        bio
-        title
-        image
-        link
+        _id
+        listingName
+        listingAddress
       }
     }
   }
 `;
 
 export const QUERY_MARKETS = gql`
-  query getMarkets($companyName: String!) {
-    markets(marketId: $marketId) {
+  query queryMarkets($listingName: String!) {
+    markets(listingName: $listing_name) {
       _id
       listingName
       listingAddress
     }
   }
 `;
+

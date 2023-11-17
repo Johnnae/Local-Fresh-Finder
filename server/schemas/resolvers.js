@@ -10,15 +10,18 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
-    markets: async (parent, args, { listingName }) => {
-      return Market.find({ listingName });
+    markets: async (parent, args, context) => {
+      
+      const markets = Market.find({});
+      console.log(markets);
+      return markets;
   },
   },
   Mutation: {
     // Takes in email and password as parameters and returns an Auth type.
     login: async (parent, { email, password }) => {
       const farmer = await Farmer.findOne({ email });
-
+      console.log(email, password)
       if (!farmer) {
         throw AuthenticationError;
       }
@@ -34,8 +37,11 @@ const resolvers = {
       return { token, farmer };
     },
     // Adds user to database and returns an Auth type. Takes in username, email, and password as parameters.
-    addFarmer: async (parent, { farmername, email, password, bio, website, phone }) => {
-      const farmer = await Farmer.create({ farmername, email, password, bio, website, phone });
+    addFarmer: async (parent, { email, phone, website, bio, companyName, password}) => {
+      console.log(email, phone, website, bio, companyName, password);
+      const farmer = await Farmer.create(
+        { email, phone, website, bio, companyName, password },
+        );
       const token = signToken(farmer);
       return { token, farmer };
     },
