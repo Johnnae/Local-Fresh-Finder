@@ -16,10 +16,10 @@ import { GET_ME } from '../utils/queries';
 import { REMOVE_MARKET } from '../utils/mutations';
 
 
-const SavedBooks = () => {
-  // create state to hold saved book data
+const saveMarket = () => {
+  // create state to hold saved market data
   const { loading, data } = useQuery(GET_ME);
-  const [removeBook, { error }] = useMutation(REMOVE_MARKET);
+  const [removeMarket, { error }] = useMutation(REMOVE_MARKET);
 
   const userData = data?.me || {};
 
@@ -27,8 +27,8 @@ const SavedBooks = () => {
     return <h2>LOADING...</h2>;
   }
 
-  // create function that accepts the book's mongo _id value as param and deletes the book from the database
-  const handleDeleteBook = async (bookId) => {
+  // create function that accepts the market's mongo _id value as param and deletes the market from the database
+  const handleDeleteMarket = async (marketId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
@@ -36,12 +36,12 @@ const SavedBooks = () => {
     }
 
     try {
-     const { data } = await removeBook({
-        variables: { bookId }
+     const { data } = await removeMarket({
+        variables: { marketId }
       });
       console.error(err);
-      // upon success, remove book's id from localStorage
-      removeBookId(bookId);
+      // upon success, remove market's id from localStorage
+      removeMarketId(marketId);
     } catch (err) {
       console.error(err);
     }
@@ -51,17 +51,17 @@ const SavedBooks = () => {
     <>
       <div fluid className="text-light bg-dark p-5">
         <Divider>
-          <h1>Viewing farmers markets!</h1>
+          <h1>Viewing Farmers Markets!</h1>
         </Divider>
       </div>
       <Divider>
         <h2 className='pt-5'>
-          {userData.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
+          {userData.savedMarkets.length
+            ? `Viewing ${userData.saveMarket.length} saved ${userData.saveMarket.length === 1 ? 'market' : 'markets'}:`
             : 'You have no saved farmers markets!'}
         </h2>
         <Row>
-          {userData.savedBooks.map((markets) => {
+          {userData.saveMarket.map((markets) => {
             return (
               <Col>
                 <Space direction="vertical" size={16}>
@@ -87,4 +87,4 @@ const SavedBooks = () => {
   );
 };
 
-export default SavedBooks;
+export default saveMarket

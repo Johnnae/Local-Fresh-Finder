@@ -11,7 +11,7 @@ import {
 
 import Auth from '../utils/auth';
 import { searchMarkets } from '../utils/API';
-import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import { saveMarketIds, getSavedMarketIds } from '../utils/localStorage';
 import { useMutation } from '@apollo/client';
 import {  SAVE_market } from '../utils/mutations';
 
@@ -21,18 +21,18 @@ const SavedMarkets = () => {
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
 
-  // create state to hold saved bookId values
+  // create state to hold saved marketId values
   const [savedMarketIds, setSavedMarketIds] = useState(getSavedMarketIds());
 
-  const [saveMarket, { error }] = useMutation(SAVE_market);
+  const [saveMarket, { error }] = useMutation(SAVE_MARKET);
 
-  // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
+  // set up useEffect hook to save `savedmarketIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
-    return () => saveBookIds(savedMarketIds);
+    return () => saveMarketIds(savedMarketIds);
   });
 
-  // create method to search for books and set state on form submit
+  // create method to search for markets and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -49,12 +49,12 @@ const SavedMarkets = () => {
 
       const { items } = await response.json();
 
-      const marketData = items.map((book) => ({
-        bookId: book.id,
-        authors: book.volumeInfo.authors || ['No author to display'],
-        title: book.volumeInfo.title,
-        description: book.volumeInfo.description,
-        image: book.volumeInfo.imageLinks?.thumbnail || '',
+      const marketData = items.map((market) => ({
+        marketId: market.id,
+        authors: market.volumeInfo.authors || ['No author to display'],
+        title: market.volumeInfo.title,
+        description: market.volumeInfo.description,
+        image: market.volumeInfo.imageLinks?.thumbnail || '',
       }));
 
       setSearchedMarkets(marketData);

@@ -62,7 +62,7 @@ module.exports = {
   async deleteFarmer({ farmer, params }, res) {
     const updatedFarmer = await Farmer.findOneAndUpdate(
       { _id: farmer._id },
-      { $pull: { savedFarmers: { bookId: params.bookId } } },
+      { $pull: { savedFarmers: { farmerId: params.farmerId } } },
       { new: true }
     );
     if (!updatedFarmer) {
