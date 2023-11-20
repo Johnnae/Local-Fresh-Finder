@@ -24,7 +24,7 @@ export const removeMarketId = (marketId) => {
   }
 
   const updatedSavedMarketIds = savedMarketIds?.filter((savedMarketId) => savedMarketId !== marketId);
-  localStorage.setItem('saved_books', JSON.stringify(updatedSavedMarketIds));
+  localStorage.setItem('saved_markets', JSON.stringify(updatedSavedMarketIds));
 
   return true;
 };

@@ -40,7 +40,7 @@ export const saveMarket = (marketData, token) => {
   });
 };
 
-// remove saved book data for a logged in user
+// remove saved market data for a logged in user
 export const deleteMarket = (marketId, token) => {
   return fetch(`/api/users/market/${marketId}`, {
     method: 'DELETE',
