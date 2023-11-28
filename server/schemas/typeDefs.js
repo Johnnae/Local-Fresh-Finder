@@ -28,7 +28,7 @@ const typeDefs = `
       addFarmer(email: String!, password: String!, phone: String!, website: String, bio: String, companyName: String!): Auth
       saveMarket(farmerId: ID!, marketId: ID!): Farmer
       removeMarket(marketId: ID!, farmerId: ID!): Farmer
-      
+
     } 
 
   type Auth { 

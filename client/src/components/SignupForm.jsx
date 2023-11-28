@@ -42,6 +42,10 @@ const SignupForm = () => {
           message: 'User Created',
           description: 'The user has been successfully created.',
         });
+        const { token, user } = addFarmer.data.addFarmer;
+        console.log(user);
+        Auth.login(token);
+        setIsModalVisible(false)
       }
       console.log(data);
         const { token, farmer } = data.addFarmer.farmer;
