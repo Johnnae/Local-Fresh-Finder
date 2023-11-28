@@ -16,7 +16,6 @@ const MarketList = ({ markets }) => {
     padding: '8px 0',
   };
 
-
   const showModal = () => {
     setOpen(true);
   };
