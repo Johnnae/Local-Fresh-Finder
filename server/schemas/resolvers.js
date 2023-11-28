@@ -51,25 +51,16 @@ const resolvers = {
       return { token, farmer };
     },
     
-    saveMarket: async (parent, { marketId, farmerId }) => {
-      try {
-        const farmer = await Farmer.findById(farmerId);
-        if (!farmer) {
-          throw new Error("Farmer not found");
-        }
-        const market = await Market.findById(marketId);
-        if (!market) {
-          throw new Error("Market not found");
-        }
-        if (farmer.savedMarkets.includes(marketId)) {
-          throw new Error("Market already added");
-        }
-        farmer.savedMarkets.push(marketId);
-        await farmer.save();
-        return farmer;
-      } catch (error) {
-        throw new Error(`Error adding market to farmer: ${error.message}`);
+    saveMarket: async (parent, { marketData }, context) => {
+      if (context.farmer) {
+        const updatedUser = await Farmer.findOneAndUpdate(
+          { _id: farmerId },
+          { $push: { markets: marketData } },
+          { new: true, runValidators: true }
+        );
+        return updatedUser;
       }
+      throw AuthenticationError;
     },
 
     removeMarket: async (parent, {  farmerId, marketId }, context) => {

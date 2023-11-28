@@ -26,6 +26,23 @@ const MarketList = ({ markets }) => {
     setOpen(false);
   };
 
+  const gridStyle = {
+    width: 'med',
+    textAlign: 'left',
+    padding: '8px 0',
+  };
+
+
+  const showModal = () => {
+    setOpen(true);
+  };
+  const handleOk = () => {
+    setLoading(true);
+  };
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
 
   return (
     <div>

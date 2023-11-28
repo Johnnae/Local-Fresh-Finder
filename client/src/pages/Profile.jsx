@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import Auth from '../utils/auth';
 import { useQuery, useMutation } from '@apollo/client';
-import { removeMarketId } from '../utils/localStorage';
 import { GET_ME } from '../utils/queries';
 import { REMOVE_MARKET } from '../utils/mutations';
 
