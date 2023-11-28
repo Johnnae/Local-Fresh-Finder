@@ -9,22 +9,6 @@ const MarketList = ({ markets }) => {
   if (!markets.length) {
     return <h3>There are currently no markets in your area!</h3>;
   }
-  const gridStyle = {
-    width: 'med',
-    textAlign: 'left',
-    padding: '8px 0',
-  };
-
-
-  const showModal = () => {
-    setOpen(true);
-  };
-  const handleOk = () => {
-    setLoading(true);
-  };
-  const handleCancel = () => {
-    setOpen(false);
-  };
 
   const gridStyle = {
     width: 'med',
