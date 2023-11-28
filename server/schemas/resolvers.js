@@ -57,16 +57,20 @@ const resolvers = {
         if (!farmer) {
           throw new Error("Farmer not found");
         }
+
         const market = await Market.findById(marketId);
         if (!market) {
           throw new Error("Market not found");
         }
+
         if (farmer.savedMarkets.includes(marketId)) {
           throw new Error("Market already added");
         }
+
         farmer.savedMarkets.push(marketId);
         await farmer.save();
         return farmer;
+        
       } catch (error) {
         throw new Error(`Error adding market to farmer: ${error.message}`);
     }
