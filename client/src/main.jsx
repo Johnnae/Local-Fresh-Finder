@@ -5,6 +5,7 @@ import App from './App.jsx'
 import Profile from './pages/Profile'
 // import SearchMarkets from './pages/SearchMarkets'
 import Homepage from './pages/Homepage'
+import SearchMarkets from './pages/SearchMarkets'
 
 
 const router = createBrowserRouter([
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
         path: '/profile',
         element: <Profile />
       },
+      {
+        path: '/search',
+        element: <SearchMarkets />
+      }
     ]
   }
 ])

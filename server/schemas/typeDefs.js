@@ -3,9 +3,9 @@ const typeDefs = `
 
   type Query  {
       
-      me: Farmer
+      farmer(farmerId: ID!): Farmer
       markets: [Market]!
-      market(listing_name: String!): Market
+      market(marketId: ID!): Market
     }
 
   type Farmer  { 
@@ -19,16 +19,16 @@ const typeDefs = `
   } 
   
   type Market {
-      marketId: String!
-      updateTime: String
-      listing_name: String!
-      location_address: String!
+      _id: ID!
+      listingName: String!
+      locationAddress: String!
     }
   type Mutation {
       login(email: String!, password: String!): Auth
       addFarmer(email: String!, password: String!, phone: String!, website: String, bio: String, companyName: String!): Auth
-      saveMarket(marketData: marketInput): Farmer
-      removeMarket(marketId: ID!): Farmer
+      saveMarket(farmerId: ID!, marketId: ID!): Farmer
+      removeMarket(marketId: ID!, farmerId: ID!): Farmer
+      
     } 
 
   type Auth { 
@@ -39,8 +39,8 @@ const typeDefs = `
   input marketInput {
     marketId: String!
     updateTime: String
-    listing_name: String!
-    location_address: String!
+    listingName: String!
+    locationAddress: String!
   } 
 `;
 module.exports = typeDefs;

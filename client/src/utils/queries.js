@@ -1,29 +1,29 @@
 import { gql } from '@apollo/client';
 
 export const GET_ME = gql`
-  query me {
-    me {
+  query farmer($farmerId: ID!) {
+    farmer(farmerId: $farmerId) {
       _id
-      username
       email
+      phone
       website
       bio
       companyName
       savedMarkets {
         _id
-        listing_name
-        listingAddress
+        listingName
+        locationAddress
       }
     }
   }
 `;
 
 export const QUERY_MARKETS = gql`
-  query queryMarkets($listing_name: String!) {
-    markets(listing_name: $listing_name) {
+  query markets {
+    markets {
       _id
-      listing_name
-      location_address
+      listingName
+      locationAddress
     }
   }
 `;

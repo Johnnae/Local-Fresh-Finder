@@ -7,6 +7,9 @@ export const LOGIN_USER = gql`
       farmer {
         _id
         email
+        phone
+        website
+        bio
         companyName
       }
     }
@@ -29,37 +32,21 @@ export const ADD_FARMER = gql`
 `;
 
 export const SAVE_MARKET = gql`
-  mutation saveMarket($marketData: marketInput!) {
-    saveMarket(marketData: $marketData) {
+  mutation saveMarket($farmerId: ID!, $marketId: ID!) {
+    saveMarket(farmerId: $farmerId, marketId: $marketId) {
       _id
-      email
-      phone
-      website
-      bio
-      companyName
       savedMarkets {
-        marketId
-        updateTime
-        listing_name
-        listing_address
+        _id
       }
     }
   }
 `;
 export const REMOVE_MARKET = gql`
-  mutation removeMarket($marketId: ID!) {
-    removeMarket(marketId: $marketId) {
+  mutation removeMarket($marketId: ID!, $farmerId: ID!) {
+    removeMarket(marketId: $marketId, farmerId: $farmerId) {
       _id
-      email
-      phone
-      website
-      bio
-      companyName
       savedMarkets {
-        marketId
-        updateTime
-        listing_name
-        listingAddress
+        _id
       }
     }
   }

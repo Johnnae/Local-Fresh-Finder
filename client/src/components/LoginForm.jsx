@@ -17,9 +17,6 @@ const LoginForm = () => {
 
   const [form] = Form.useForm();
 
-  // const showModal = () => {
-  //   setIsModalVisible(true);
-  // };
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -27,13 +24,14 @@ const LoginForm = () => {
 
 
 
-  const [loginUser, { error }] = useMutation(LOGIN_USER);
+  const [login, { error }] = useMutation(LOGIN_USER);
 
   const onFinish = async (values) => {
     console.log('Received values:', values);
-    await handleFormSubmit(values,);
+    await handleFormSubmit(values);
     setIsModalVisible(false);
   };
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
@@ -42,14 +40,18 @@ const LoginForm = () => {
   const handleFormSubmit = async (values) => {
 
     try {
-        const { data } = await loginUser({
+      const response = await login({
           variables: { 
             email: values.email, 
             password: values.password
            }
         });
-  
-        Auth.login(data.login.token);
+
+        console.log(response);
+
+        const { token, farmer } = response.data.login;
+
+        Auth.login(token);
         
       } catch (err) {
         console.log(err);

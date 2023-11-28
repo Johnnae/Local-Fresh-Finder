@@ -1,22 +1,61 @@
-const MarketList = ({ markets, title }) => {
+import {Card, Row, Col, Button, Modal, Space} from 'antd';
+import React, { useState } from 'react';
+
+const MarketList = ({ markets }) => {
+
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
   if (!markets.length) {
-    return <h3>They have not signed up for any farmers markets</h3>;
+    return <h3>There are currently no markets in your area!</h3>;
   }
+  const gridStyle = {
+    width: 'med',
+    textAlign: 'left',
+    padding: '8px 0',
+  };
+
+
+  const showModal = () => {
+    setOpen(true);
+  };
+  const handleOk = () => {
+    setLoading(true);
+  };
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
 
   return (
     <div>
-      <h3>{title}</h3>
-      {markets &&
-        markets.map((market) => (
-          <div key={market._id} className="card mb-3">
-            <h4 className="card-header bg-primary text-light p-2 m-0">
-              {market.listingName} <br />
-            </h4>
-            <div className="card-body bg-light p-2">
-              <p>{market.listingAddress}</p>
-            </div>
-          </div>
-        ))}
+      <Row gutter={[8,8]}>
+          {markets &&
+            markets.map((market) => (
+              <Col span={8} className="gutter-row" key={market.listing_id}>
+                <Card
+                  title={market.listingName}
+                  key={market._id}
+                  bordered
+                  style={gridStyle}>
+                  <p><b>Location:</b></p>
+                  <p>{market.locationAddress}</p>
+                  <Button type="primary" onClick={showModal}>
+                    More Info
+                  </Button>
+                  <Modal
+                    open={open}
+                    title="More Info"
+                    onOk={handleOk}
+                    onCancel={handleCancel}>
+                    <h4>Address:</h4>
+                    <p>{market.locationAddress}</p>
+                    <h4> Farms Attending:</h4>
+                  </Modal>
+                </Card>
+              </Col>
+            ))}
+      </Row>
     </div>
   );
 };

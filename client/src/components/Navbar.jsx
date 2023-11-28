@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Modal, Tabs } from 'antd';
-import { HomeOutlined, UserOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, SearchOutlined } from '@ant-design/icons';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
 
@@ -37,6 +37,7 @@ const AppNavbar = () => {
       children: <SignUpForm handleOk={handleOk} handleCancel={handleCancel} />,
     },
   ];
+  
 
   return (
     <>
@@ -49,6 +50,9 @@ const AppNavbar = () => {
           <>
             <Menu.Item key="saved" icon={<UserOutlined />}>
               <Link to="/profile">Dashboard</Link>
+            </Menu.Item>
+            <Menu.Item key="search" icon={<SearchOutlined />}>
+              <Link to="/search">Search</Link>
             </Menu.Item>
             <Menu.Item key="logout" icon={<UserOutlined />} onClick={Auth.logout}>
               Logout

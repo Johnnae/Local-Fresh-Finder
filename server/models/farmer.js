@@ -62,10 +62,10 @@ farmerSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-// // when we query a farmer, we'll also get another field called `marketCount` with the number of saved markets we have
-// farmerSchema.virtual("marketCount").get(function () {
-//   return this.savedMarkets.length;
-// });
+// when we query a farmer, we'll also get another field called `marketCount` with the number of saved markets we have
+farmerSchema.virtual("marketCount").get(function () {
+  return this.savedMarkets.length;
+});
 
 const Farmer = model('Farmer', farmerSchema);
 
