@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+.gutter-box {
+  padding: 8px 0;
+  background: #00a0e9;
+}

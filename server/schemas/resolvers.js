@@ -4,21 +4,23 @@ const { signToken, AuthenticationError } = require("../utils/auth");
 const resolvers = {
   Query: {
   
-    me: async (parent, args, context) => {
-      if (context.farmer) {
-        return Farmer.findOne({ _id: context.farmer._id }).populate("Farmers");
+    farmer: async (parent, {farmerId}) => {
+      if (farmerId) {
+        const farmer = await Farmer.findOne({ _id: farmerId }).select('-__v -password').populate('savedMarkets');
+        return farmer;
       }
-      throw AuthenticationError;
     },
-    markets: async (parent, args, context) => {
+    markets: async () => {
       
-      const markets = Market.find({});
+      const markets = Market.find();
       console.log(markets);
       return markets;
   },
-    market: async (parent, args, context ) => {
-      return Market.findOne({listingName: context.listing_name});
-      console.log(context)
+    market: async (parent, {marketId} ) => {
+      console.log(marketId)
+      const market = await Market.findById({ _id: marketId});
+      return market
+      
     },
   },
   Mutation: {
@@ -42,36 +44,53 @@ const resolvers = {
     },
     // Adds user to database and returns an Auth type. Takes in username, email, and password as parameters.
     addFarmer: async (parent, { email, phone, website, bio, companyName, password}) => {
-      console.log(email, phone, website, bio, companyName, password);
       const farmer = await Farmer.create(
-        { email, phone, website, bio, companyName, password },
+        { email, phone, website, bio, companyName, password }
         );
       const token = signToken(farmer);
       return { token, farmer };
     },
     
-    saveMarket: async (parent, { marketData }, context) => {
-      if (context.farmer) {
-        const updatedUser = await Farmer.findOneAndUpdate(
-          { _id: farmerId },
-          { $push: { markets: marketData } },
-          { new: true, runValidators: true }
-        );
-        return updatedUser;
+    saveMarket: async (parent, { marketId, farmerId }) => {
+      try {
+        const farmer = await Farmer.findById(farmerId);
+        if (!farmer) {
+          throw new Error("Farmer not found");
+        }
+        const market = await Market.findById(marketId);
+        if (!market) {
+          throw new Error("Market not found");
+        }
+        if (farmer.savedMarkets.includes(marketId)) {
+          throw new Error("Market already added");
+        }
+        farmer.savedMarkets.push(marketId);
+        await farmer.save();
+        return farmer;
+      } catch (error) {
+        throw new Error(`Error adding market to farmer: ${error.message}`);
       }
-      throw AuthenticationError;
     },
 
-    removeMarket: async (parent, {  marketId }, context) => {
-      if (context.farmer) {
-        const updatedUser = await Farmer.findOneAndUpdate(
-          { _id: context.farmer._id },
-          { $pull: { markets: {marketId} } },
-          { new: true }
-        )
-        return updatedUser;
+    removeMarket: async (parent, {  farmerId, marketId }, context) => {
+      try {
+        const farmer = await Farmer.findById(farmerId);
+        if (!farmer) {
+          throw new Error("Farmer not found");
+        }
+        const market = await Market.findById(marketId);
+        if (!market) {
+          throw new Error("Market not found");
+        }
+        if (!farmer.savedMarkets.includes(marketId)) {
+          throw new Error("Market already added");
+        }
+        farmer.savedMarkets.pull(marketId);
+        await farmer.save();
+        return farmer;
+      } catch (error) {
+        throw new Error(`Error removing market to farmer: ${error.message}`);
       }
-      throw AuthenticationError;
     },
   },
 };

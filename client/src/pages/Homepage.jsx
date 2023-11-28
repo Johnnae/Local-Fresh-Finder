@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import Auth from '../utils/auth';
+import { useQuery } from '@apollo/client';
+import { QUERY_MARKETS } from '../utils/queries'
+
 import {
   Divider,
   Col,
@@ -12,62 +16,22 @@ import {
   InputNumber,
 } from 'antd';
 
-const { Header, Content, Sider } = Layout;
-import Footer from '../components/Footer';
+const { Header, Content } = Layout;
 
 import MarketList from '../components/MarketList';
-import { useMutation, useLazyQuery, useQuery } from '@apollo/client';
-
-import Auth from '../utils/auth';
-import { SAVE_MARKET } from "../utils/mutations";
-import { QUERY_MARKETS} from "../utils/queries";
-import { getSavedMarketIds, saveMarketIds } from "../utils/localStorage";
 
 
-const queryMarkets = () => {
+const Homepage = () => {
+  const {loading, data} = useQuery(QUERY_MARKETS);
+  const markets = data?.markets || [];
 
-  const [userImputData, setUserInputData] = useState({ listing_name: '' });
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  const [validated] = useState(false);
-
-  const [showAlert, setShowAlert] = useState(false);
-  // create state for holding returned form data
-  const [form] = Form.useForm();
-
-  const [ queryMarkets ,{ error }] = useLazyQuery(QUERY_MARKETS);
-
-  // create state for holding returned query data 
-  const [searchQuery, setSearchQuery] = useState([]);
-
-  // create state for holding our marketId values
-  const [savedMarketIds, setSavedMarketIds] = useState(getSavedMarketIds());
-
-  useEffect(() => {
-    return () => saveMarketIds(savedMarketIds);
-  });
-
-  //create method to search for markets and set state on form submit
-
-  const handleFormSubmit = async (values) => {
-    // event.preventDefault();
-    console.log(values);
-    if (!values) {
-      return false;
-    }
-    try {
-      const { data } = await queryMarkets({
-        variables: { listing_name: values.Markets },
-      });
-
-      const markets = data?.markets || [];
-      console.log(markets);
-      return data;
-
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  
+  if (!markets.length || !markets.length === 0) {
+    return <h3>No Markets Found</h3>;
+  }
 
   return (
     <>
@@ -79,45 +43,17 @@ const queryMarkets = () => {
             justifyContent: "center",
             color: "white",
             fontSize: "medium",
-            padding : "3em",
-            }}>
-            <h1>Search for markets in your area!</h1>
+            padding: "3em",
+          }}>
+            <h2>Search for markets in your area!</h2>
           </Header>
         </Layout>
-        <Layout hasSider>
-          <Sider>
-            <Form
-              name="searchBar"
-              initialValues={{ remember: true }}
-              width="large" 
-              onFinish={handleFormSubmit}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                background: "white",
-                padding: "2em",
-              }}>
-              <Form.Item 
-                label="Markets" 
-                name="Markets" 
-                width="50px" 
-                rules={[{ required: true, message: "Please search for a market!" }]}
-                >
-                <Input onPressEnter={handleFormSubmit} placeholder="Search for a market" width="md"  />
-              </Form.Item>
-              <Button type="primary" htmlType="submit">
-                Search now!
-              </Button>
-            </Form>
-          </Sider>
-
-          <Content>
-            
-          </Content>
-        </Layout>
-      </div> 
-        <Footer/>
+        <Content>
+          <MarketList markets={markets} />
+        </Content>
+      </div>
     </>
-  )
-  };
-export default queryMarkets;
+  );
+}
+
+export default Homepage;

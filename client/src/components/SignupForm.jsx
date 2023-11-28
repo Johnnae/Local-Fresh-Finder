@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { AutoComplete, Button, Form, Input, Select, notification } from 'antd';
-const { Option } = Select;
 
-//import { createUser } from '../utils/API';
 import Auth from '../utils/auth';
 
 import { useMutation } from '@apollo/client';
@@ -13,15 +11,22 @@ const SignupForm = () => {
 
   const [form] = Form.useForm();
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+
+
   const [addFarmer, { data }] = useMutation(ADD_FARMER);
 
   const [error, setError] = useState('');
 
   const onFinish = async (values) => {
     console.log('Received values of form: ', values);
-
+    await handleFormSubmit(values);
+    setIsModalVisible(false);
+  }
+  const handleFormSubmit = async (values) => {
     try {
-      const { data } = await addFarmer({
+      const {data} = await addFarmer({
         variables: { 
           bio: values.bio,
           companyName: values.companyName,
@@ -38,11 +43,25 @@ const SignupForm = () => {
           description: 'The user has been successfully created.',
         });
       }
-      setData(data);
+      console.log(data);
+        const { token, farmer } = data.addFarmer.farmer;
+        console.log(farmer);
+        Auth.login(token);
+        setIsModalVisible(false)
+      
     } catch {
       console.log(error);
-      setError(error);
+      console.error(error);
+      setShowAlert(true);
     }
+    setIsModalVisible({
+      email: '',
+      password: '',
+      companyName: '',
+      phone: '',
+      website: '',
+      bio: '',
+    })
   };
 
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
@@ -210,7 +229,7 @@ const SignupForm = () => {
           <Input.TextArea showCount maxLength={100} />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" className="login-form-button">
             Register
           </Button>
         </Form.Item>

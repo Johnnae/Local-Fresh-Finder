@@ -9,11 +9,11 @@ const marketSchema = new Schema({
   updateTime: {
     type: String,
   },
-  listing_name: {
+  listingName: {
     type: String,
     required: true,
   },
-  location_address: {
+  locationAddress: {
     type: String,
     required: true,
   },
